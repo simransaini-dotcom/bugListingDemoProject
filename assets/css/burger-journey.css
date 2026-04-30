@@ -1,0 +1,367 @@
+/* ============================================================
+   BURGER JOURNEY — Scroll-Driven Persistent Burger System
+   ============================================================ */
+
+/* ── Outer wrapper: fixed, GPU-composited ── */
+.journey-wrap {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 500;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  opacity: 0; /* starts invisible; JS fades it in */
+}
+
+/* ── Inner container: all visual effects pivot from here ── */
+.journey-inner {
+  position: relative;
+  width: 340px; height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center 58%;
+  will-change: transform;
+}
+
+/* ════════════════════════════════════
+   ORBIT RINGS
+════════════════════════════════════ */
+.j-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.8s;
+}
+.j-ring-1 {
+  inset: -28px;
+  border: 1px solid rgba(212,160,23,0.22);
+  animation: jRingCW  14s linear infinite;
+}
+.j-ring-1::before {
+  content: '';
+  position: absolute; top: -5px; left: 50%;
+  transform: translateX(-50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold, #D4A017);
+  box-shadow: 0 0 14px 5px rgba(212,160,23,0.65);
+}
+.j-ring-2 {
+  inset: -58px;
+  border: 1px dashed rgba(212,160,23,0.07);
+  animation: jRingCCW 22s linear infinite;
+}
+@keyframes jRingCW  { to { transform: rotate( 360deg); } }
+@keyframes jRingCCW { to { transform: rotate(-360deg); } }
+
+/* Ring fade when in testimonials */
+.journey-wrap.in-testi .j-ring { opacity: 0.2; }
+.journey-wrap.in-cta    .j-ring { opacity: 1; }
+
+/* ════════════════════════════════════
+   AMBIENT AURA
+════════════════════════════════════ */
+.j-aura {
+  position: absolute;
+  inset: -65px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(212,160,23,0.18) 0%, transparent 68%);
+  animation: jAuraBreathe 3.5s ease-in-out infinite;
+  transition: background 1.2s ease;
+}
+/* Section-specific aura colours — one per narrative chapter */
+.journey-wrap.in-ingredients .j-aura {
+  background: radial-gradient(ellipse, rgba(110,231,90,0.18) 0%, transparent 66%);
+}
+.journey-wrap.in-layers .j-aura {
+  background: radial-gradient(ellipse, rgba(255,179,0,0.22) 0%, transparent 65%);
+}
+.journey-wrap.in-grill .j-aura {
+  background: radial-gradient(ellipse, rgba(255,107,53,0.38) 0%, transparent 60%);
+  animation: jAuraBreathe 1.6s ease-in-out infinite;
+}
+.journey-wrap.in-why   .j-aura {
+  background: radial-gradient(ellipse, rgba(212,160,23,0.22) 0%, transparent 65%);
+}
+.journey-wrap.in-menu  .j-aura {
+  background: radial-gradient(ellipse, rgba(212,160,23,0.14) 0%, transparent 65%);
+}
+.journey-wrap.in-testi .j-aura { opacity: 0.3; }
+.journey-wrap.in-cta   .j-aura {
+  background: radial-gradient(ellipse, rgba(212,160,23,0.45) 0%, transparent 60%);
+  animation: jAuraBreathe 1.8s ease-in-out infinite;
+}
+@keyframes jAuraBreathe {
+  0%,100% { transform: scale(1);    opacity: 0.85; }
+  50%     { transform: scale(1.12); opacity: 1;    }
+}
+
+/* ════════════════════════════════════
+   STEAM PARTICLES
+════════════════════════════════════ */
+.j-steam-wrap {
+  position: absolute;
+  bottom: calc(100% - 30px);
+  left: 50%; transform: translateX(-50%);
+  width: 100px; height: 80px;
+  pointer-events: none;
+}
+.j-steam {
+  position: absolute;
+  bottom: 0;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  filter: blur(7px);
+  animation: jSteamRise 3s ease-out infinite;
+  opacity: 0;
+}
+.j-steam.js1 { left: 18%; animation-delay: 0s;    animation-duration: 3.2s; }
+.j-steam.js2 { left: 42%; animation-delay: 0.9s;  animation-duration: 2.8s; }
+.j-steam.js3 { left: 65%; animation-delay: 1.7s;  animation-duration: 3.6s; }
+.j-steam.js4 { left: 30%; animation-delay: 0.45s; animation-duration: 4s; width: 8px; }
+@keyframes jSteamRise {
+  0%   { opacity: 0;   transform: translateY(0)    scaleX(1);   }
+  20%  { opacity: 0.8; }
+  100% { opacity: 0;   transform: translateY(-72px) scaleX(2.8); }
+}
+/* More steam in CTA section */
+.journey-wrap.in-cta .j-steam { animation-duration: 2s; }
+
+/* ════════════════════════════════════
+   BUN SHINE SWEEP
+════════════════════════════════════ */
+.j-bun-shine {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.j-bun-shine::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 50px; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  animation: jBunShine 7s ease-in-out infinite;
+}
+@keyframes jBunShine {
+  0%, 55%  { left: -120%; opacity: 0; }
+  60%      { opacity: 1; }
+  100%     { left: 160%;  opacity: 0; }
+}
+
+/* ════════════════════════════════════
+   PATTY HEAT SHIMMER
+════════════════════════════════════ */
+.j-patty-heat {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.j-patty-heat::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%,
+    rgba(255,100,0,0.12) 0%, transparent 70%);
+  animation: jHeatPulse 2s ease-in-out infinite;
+}
+@keyframes jHeatPulse {
+  0%,100% { opacity: 0.5; }
+  50%     { opacity: 1; }
+}
+
+/* ════════════════════════════════════
+   INGREDIENT HIGHLIGHT LAYER GLOWS
+   Applied via JS class toggles
+════════════════════════════════════ */
+#jCheese.lit {
+  box-shadow: 0 0 24px 8px rgba(255,179,0,0.6), 0 5px 18px rgba(255,179,0,0.4) !important;
+  filter: brightness(1.25);
+}
+#jLettuce.lit {
+  box-shadow: 0 0 20px 6px rgba(110,231,90,0.5) !important;
+  filter: brightness(1.3);
+}
+#jSauce.lit {
+  box-shadow: 0 0 16px 4px rgba(255,107,53,0.5) !important;
+  filter: brightness(1.2);
+}
+#jPatty.lit {
+  box-shadow: 0 0 28px 8px rgba(212,160,23,0.35) !important;
+  filter: brightness(1.15);
+}
+#jCheese, #jLettuce, #jSauce, #jPatty {
+  transition: box-shadow 0.5s, filter 0.5s;
+}
+
+/* ════════════════════════════════════
+   INGREDIENT CALLOUT LABELS
+════════════════════════════════════ */
+.j-labels { position: absolute; inset: 0; pointer-events: none; }
+
+.j-label {
+  position: absolute;
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(7,7,7,0.85);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 100px;
+  padding: 5px 14px 5px 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.5s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.j-label.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.jl-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px 2px currentColor;
+}
+
+/* Label default positions — 2 left, 2 right (centered layout) */
+.jl-cheese  { top: 28%; right: calc(100% + 16px); color: #FFD740; transition-delay: 0s;    }
+.jl-cheese  .jl-dot { background: #FFD740; }
+.jl-lettuce { top: 44%; right: calc(100% + 16px); color: #6EE75A; transition-delay: 0.15s; }
+.jl-lettuce .jl-dot { background: #6EE75A; }
+
+.jl-sauce { top: 58%; left: calc(100% + 16px); color: #FF6B35; transition-delay: 0.30s;
+            transform: translateX(16px); }
+.jl-sauce.show { transform: translateX(0); }
+.jl-sauce  .jl-dot { background: #FF6B35; }
+.jl-patty { top: 72%; left: calc(100% + 16px); color: #D4A017; transition-delay: 0.45s;
+            transform: translateX(16px); }
+.jl-patty.show { transform: translateX(0); }
+.jl-patty  .jl-dot { background: #D4A017; }
+
+/* In-ingredients: burger is on the LEFT — move all labels to the right side */
+.journey-wrap.in-ingredients .jl-cheese,
+.journey-wrap.in-ingredients .jl-lettuce {
+  right: auto;
+  left: calc(100% + 16px);
+  transform: translateX(16px);
+}
+.journey-wrap.in-ingredients .jl-cheese.show,
+.journey-wrap.in-ingredients .jl-lettuce.show {
+  transform: translateX(0);
+}
+.journey-wrap.in-ingredients .jl-sauce,
+.journey-wrap.in-ingredients .jl-patty {
+  left: calc(100% + 16px);
+  top: auto;
+}
+.journey-wrap.in-ingredients .jl-sauce  { top: 42%; }
+.journey-wrap.in-ingredients .jl-patty  { top: 60%; }
+
+/* ════════════════════════════════════
+   WHY-CHOOSE FLOATING ICONS
+════════════════════════════════════ */
+.j-why-icons { position: absolute; inset: 0; pointer-events: none; }
+.j-why-icon {
+  position: absolute;
+  font-size: 22px;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+.j-why-icon.show { opacity: 1; transform: scale(1) rotate(0deg); }
+/* Orbit positions around the burger */
+.jwi-1 { top: -18%;  left: 10%;  animation: jWhyFloat1 3s ease-in-out infinite; }
+.jwi-2 { top: 50%;   right: -22%; animation: jWhyFloat2 3.5s ease-in-out infinite; }
+.jwi-3 { bottom: 0%; left: -18%; animation: jWhyFloat3 2.8s ease-in-out infinite; }
+.jwi-4 { top: -12%;  right: 10%; animation: jWhyFloat4 3.2s ease-in-out infinite; }
+@keyframes jWhyFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-6px,-10px) scale(1.1)} }
+@keyframes jWhyFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(8px,-8px) scale(1.1)} }
+@keyframes jWhyFloat3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-8px,8px) scale(1.1)} }
+@keyframes jWhyFloat4 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(6px,-12px) scale(1.1)} }
+.j-why-icon.show { animation-play-state: running; }
+
+/* ════════════════════════════════════
+   CTA SPOTLIGHT
+════════════════════════════════════ */
+.j-spotlight {
+  position: absolute;
+  inset: -100px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 110%,
+    rgba(212,160,23,0.25) 0%,
+    rgba(212,160,23,0.08) 40%,
+    transparent 70%);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+.journey-wrap.in-cta .j-spotlight { opacity: 1; }
+
+/* ════════════════════════════════════
+   DYNAMIC SHADOW
+════════════════════════════════════ */
+.j-shadow {
+  position: absolute;
+  bottom: -45px; left: 50%;
+  transform: translateX(-50%);
+  width: 220px; height: 28px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 70%);
+  animation: jShadowBreath 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes jShadowBreath {
+  0%,100% { width: 210px; opacity: 0.75; }
+  50%     { width: 255px; opacity: 0.45; }
+}
+
+/* ════════════════════════════════════
+   SECTION-SPECIFIC BURGER TINTS
+   (light-source feel shifts per chapter)
+════════════════════════════════════ */
+.journey-wrap.in-ingredients .burger-3d {
+  filter: drop-shadow(0 0 14px rgba(110,231,90,0.18));
+}
+.journey-wrap.in-layers .burger-3d {
+  filter: drop-shadow(0 0 18px rgba(255,179,0,0.22));
+}
+.journey-wrap.in-why .burger-3d {
+  filter: drop-shadow(0 0 18px rgba(212,160,23,0.25));
+}
+.journey-wrap.in-cta .burger-3d {
+  filter: drop-shadow(0 0 32px rgba(212,160,23,0.45));
+}
+.journey-wrap.in-testi .burger-3d {
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.05)) brightness(0.82);
+}
+
+/* Cooking mode — more steam in grill section */
+.journey-wrap.in-grill .j-steam { animation-duration: 2s !important; }
+.journey-wrap.in-cta   .j-steam { animation-duration: 2.2s !important; }
+
+/* ════════════════════════════════════
+   HERO BURGER: hide original once journey takes over
+════════════════════════════════════ */
+.hero-burger-hidden .hero .burger-wrapper {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Hide labels and icons on mobile for performance */
+  .j-labels, .j-why-icons { display: none; }
+  .j-ring-2 { display: none; }
+}
+@media (max-width: 480px) {
+  .journey-wrap { display: none; } /* Full fallback — hero burger stays */
+}

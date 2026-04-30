@@ -1,0 +1,372 @@
+/* ============================================================
+   STORY JOURNEY SECTION
+   Pinned cinematic 5-phase storytelling experience
+   ============================================================ */
+
+/* ── Section container — GSAP adds scroll space via pin ── */
+.story-section {
+  position: relative;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* ── The pinned panel (stays at top while user scrolls through phases) ── */
+.story-pinned {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 48px 0 80px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ── Atmospheric background layer (animates per phase) ── */
+.story-bg-layer {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 72% 50%, rgba(212,160,23,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 28% 50%, rgba(255,107,53,0.04) 0%, transparent 50%);
+  transition: background 1.4s ease;
+  pointer-events: none;
+}
+.story-section.phase-1 .story-bg-layer {
+  background:
+    radial-gradient(ellipse at 72% 50%, rgba(110,231,90,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(212,160,23,0.04) 0%, transparent 50%);
+}
+.story-section.phase-2 .story-bg-layer {
+  background:
+    radial-gradient(ellipse at 72% 50%, rgba(212,160,23,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 25% 50%, rgba(255,184,0,0.04) 0%, transparent 50%);
+}
+.story-section.phase-3 .story-bg-layer {
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 25% 60%, rgba(212,160,23,0.05) 0%, transparent 50%);
+}
+.story-section.phase-4 .story-bg-layer {
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(255,107,53,0.16) 0%, transparent 52%),
+    radial-gradient(ellipse at 20% 50%, rgba(255,60,0,0.06) 0%, transparent 48%);
+}
+.story-section.phase-5 .story-bg-layer {
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.20) 0%, transparent 50%),
+    radial-gradient(ellipse at 25% 50%, rgba(212,160,23,0.07) 0%, transparent 48%);
+}
+
+/* ════════════════════════════════════
+   STORY NAV (top-left)
+════════════════════════════════════ */
+.story-nav {
+  position: absolute;
+  top: 52px; left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+.story-step-display {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--gold, #D4A017);
+  display: flex; align-items: center; gap: 4px;
+}
+.story-step-sep, .story-step-total { color: rgba(212,160,23,0.4); }
+.story-dot-track {
+  display: flex; gap: 8px; align-items: center;
+}
+.story-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.4s, transform 0.4s, box-shadow 0.4s;
+  cursor: default;
+}
+.story-dot.active {
+  background: var(--gold, #D4A017);
+  transform: scale(1.5);
+  box-shadow: 0 0 10px rgba(212,160,23,0.6);
+}
+
+/* ════════════════════════════════════
+   LEFT CONTENT COLUMN
+════════════════════════════════════ */
+.story-content-col {
+  width: 44%;
+  position: relative;
+  z-index: 3;
+}
+
+/* ── Phases wrap: fixed height so no layout jump ── */
+.story-phases-wrap {
+  position: relative;
+  height: 400px;
+}
+.story-phase {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+.story-phase.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Chapter label ── */
+.story-chapter-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold, #D4A017);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.55s ease 0.0s, transform 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.0s;
+}
+.story-chapter-label::before {
+  content: '';
+  width: 22px; height: 1px;
+  background: var(--gold, #D4A017);
+}
+.story-phase.active .story-chapter-label { opacity: 1; transform: none; }
+
+/* ── Phase title ── */
+.story-phase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4.2vw, 66px);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease 0.1s, transform 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.1s;
+}
+.story-phase.active .story-phase-title { opacity: 1; transform: none; }
+
+/* ── Phase description ── */
+.story-phase-desc {
+  font-size: 15px; line-height: 1.78;
+  color: var(--text-secondary, #A8A8A8);
+  max-width: 400px;
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.2s;
+}
+.story-phase.active .story-phase-desc { opacity: 1; transform: none; }
+
+/* ── Phase extra content (grid, stats, steps) ── */
+.story-ing-grid,
+.story-big-stat,
+.story-process-steps,
+.story-temp-display,
+.story-final-cta {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease 0.3s, transform 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s;
+}
+.story-phase.active .story-ing-grid,
+.story-phase.active .story-big-stat,
+.story-phase.active .story-process-steps,
+.story-phase.active .story-temp-display,
+.story-phase.active .story-final-cta { opacity: 1; transform: none; }
+
+/* ─ Phase 1: Ingredient grid ─ */
+.story-ing-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.s-ing-tag {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 100px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary, #A8A8A8);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s, color 0.3s;
+}
+.s-ing-tag:hover { border-color: rgba(212,160,23,0.3); color: var(--gold, #D4A017); }
+.sit-icon { font-size: 14px; }
+
+/* ─ Phase 2: Big stat ─ */
+.story-big-stat {
+  display: flex; align-items: baseline; gap: 12px;
+}
+.sbs-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 80px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #F0C840, #E88A18);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sbs-label {
+  font-size: 14px; color: var(--text-secondary, #A8A8A8); line-height: 1.4;
+}
+
+/* ─ Phase 3: Process steps ─ */
+.story-process-steps { display: flex; flex-direction: column; gap: 12px; }
+.sps-item {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 14px; color: var(--text-secondary, #A8A8A8);
+}
+.sps-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+
+/* ─ Phase 4: Temperature ─ */
+.story-temp-display {
+  display: flex; align-items: baseline; gap: 10px;
+}
+.std-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 72px; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #FF6B35, #FF8F00, #D4A017);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: tempFlicker 3s ease-in-out infinite;
+}
+@keyframes tempFlicker {
+  0%,100% { opacity: 1; }
+  48%     { opacity: 1; }
+  50%     { opacity: 0.85; }
+  52%     { opacity: 1; }
+  78%     { opacity: 1; }
+  80%     { opacity: 0.9; }
+  82%     { opacity: 1; }
+}
+.std-unit { font-size: 14px; color: var(--text-secondary, #A8A8A8); }
+
+/* ─ Phase 5: Final CTA ─ */
+.story-final-cta { display: flex; flex-direction: column; gap: 12px; }
+.sfc-sub { font-size: 12px; color: var(--text-muted, #606060); margin-top: 4px; }
+
+/* ════════════════════════════════════
+   RIGHT COLUMN — burger floats here
+════════════════════════════════════ */
+.story-right-col {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+.story-right-glow {
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  top: 50%; right: 8%;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse, rgba(212,160,23,0.08) 0%, transparent 70%);
+  transition: background 1.4s ease, transform 1.4s;
+  pointer-events: none;
+}
+/* Phase-specific right glow */
+.story-section.phase-4 .story-right-glow {
+  background: radial-gradient(ellipse, rgba(255,107,53,0.15) 0%, transparent 65%);
+  transform: translateY(-50%) scale(1.2);
+}
+.story-section.phase-5 .story-right-glow {
+  background: radial-gradient(ellipse, rgba(212,160,23,0.22) 0%, transparent 62%);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ════════════════════════════════════
+   PROGRESS BAR (bottom)
+════════════════════════════════════ */
+.story-progress-track {
+  position: absolute;
+  bottom: 44px; left: 80px;
+  width: 300px; height: 1px;
+  background: rgba(255,255,255,0.06);
+  z-index: 10;
+}
+.story-progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold, #D4A017), #FF8F00);
+  box-shadow: 0 0 10px rgba(212,160,23,0.6);
+  transition: width 0.15s linear;
+  position: relative;
+}
+.story-progress-fill::after {
+  content: '';
+  position: absolute; right: -4px; top: 50%;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold, #D4A017);
+  box-shadow: 0 0 12px rgba(212,160,23,0.8);
+}
+.story-progress-label {
+  position: absolute;
+  top: 14px; left: 0;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-muted, #606060);
+  white-space: nowrap;
+  transition: opacity 0.5s;
+}
+
+/* ════════════════════════════════════
+   BIG DECORATIVE PHASE NUMBER
+════════════════════════════════════ */
+.story-big-num {
+  position: absolute;
+  bottom: 20px; right: 48px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 160px; font-weight: 900; line-height: 1;
+  color: rgba(255,255,255,0.018);
+  z-index: 1;
+  user-select: none; pointer-events: none;
+  transition: color 0.8s;
+}
+.story-section.phase-4 .story-big-num { color: rgba(255,107,53,0.035); }
+.story-section.phase-5 .story-big-num { color: rgba(212,160,23,0.04); }
+
+/* ════════════════════════════════════
+   JOURNEY BURGER — story section states
+   Applied via .journey-wrap.in-story
+════════════════════════════════════ */
+
+/* Cooking mode — warm aura + extra steam */
+.journey-wrap.cooking .j-aura {
+  background: radial-gradient(ellipse, rgba(255,107,53,0.35) 0%, transparent 62%) !important;
+  animation: jAuraBreathe 1.6s ease-in-out infinite !important;
+}
+.journey-wrap.cooking .j-steam { animation-duration: 1.8s !important; }
+.journey-wrap.cooking .j-ring-1 { border-color: rgba(255,107,53,0.35); }
+.journey-wrap.cooking .j-ring-1::before { background: #FF6B35; box-shadow: 0 0 14px 5px rgba(255,107,53,0.7); }
+
+/* Final reveal state */
+.journey-wrap.in-story-final .j-aura {
+  background: radial-gradient(ellipse, rgba(212,160,23,0.42) 0%, transparent 60%) !important;
+}
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 900px) {
+  .story-pinned { padding: 0 24px; flex-direction: column; justify-content: center; gap: 24px; }
+  .story-content-col { width: 100%; }
+  .story-right-col { display: none; }
+  .story-nav { left: 24px; }
+  .story-progress-track { left: 24px; }
+  .story-big-num { font-size: 100px; right: 24px; }
+  .story-phase-title { font-size: 36px; }
+}
+@media (max-width: 480px) {
+  .story-phases-wrap { height: 460px; }
+  .story-phase-title { font-size: 30px; }
+  .sbs-num, .std-num { font-size: 56px; }
+}
