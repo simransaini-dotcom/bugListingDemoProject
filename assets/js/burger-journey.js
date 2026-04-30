@@ -97,8 +97,8 @@
        RIGHT  lane-mid = last 360px col (ends ~94% of vw) */
   function lanePosLeft()   {
     if (mob()) return vw * 0.50 - (BW * 0.60) / 2;
-    if (tab()) return vw * 0.185 - BW / 2;
-    return vw * 0.185 - BW / 2;
+    if (tab()) return vw * 0.22 - BW / 2;
+    return vw * 0.22 - BW / 2;
   }
   function lanePosCenter(xOff) {
     if (mob()) return vw * 0.50 - (BW * 0.60) / 2;
@@ -106,8 +106,8 @@
   }
   function lanePosRight()  {
     if (mob()) return vw * 0.50 - (BW * 0.60) / 2;
-    if (tab()) return vw * 0.815 - BW / 2;
-    return vw * 0.815 - BW / 2;
+    if (tab()) return vw * 0.78 - BW / 2;
+    return vw * 0.78 - BW / 2;
   }
   /* Keep laneX as alias for center (used nowhere else but kept for safety) */
   function laneX(xOff) { return lanePosCenter(xOff); }
