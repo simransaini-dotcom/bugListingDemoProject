@@ -519,6 +519,24 @@
   }
 
   /* ═══════════════════════════════════════════════════════════
+     CTA SECTION PIN
+     Pin the burger at center-top throughout the CTA section
+  ═══════════════════════════════════════════════════════════ */
+  function buildCTAPin() {
+    var el = document.querySelector('#order');
+    if (!el) return;
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 10%',
+      end: 'bottom top',
+      pin: wrap,
+      pinSpacing: false,
+      invalidateOnRefresh: true,
+    });
+  }
+
+  /* ═══════════════════════════════════════════════════════════
      CTA SECTION
      The journey is complete. The burger returns to full glory.
   ═══════════════════════════════════════════════════════════ */
