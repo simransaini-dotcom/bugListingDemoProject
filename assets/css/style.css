@@ -278,9 +278,7 @@ body:hover .cursor-dot { background: var(--gold-light); }
 }
 .hero-title .line { display: block; overflow: hidden; }
 .hero-title .highlight {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--amber) 50%, var(--gold) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
   font-style: italic;
 }
 .hero-subtitle {
