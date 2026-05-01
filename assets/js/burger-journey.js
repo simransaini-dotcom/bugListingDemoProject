@@ -288,6 +288,7 @@
     buildWhyEffect();
     buildMenuHoverReactions();
     buildCTAEffect();
+    buildCTAPin();
   }
 
   /* ─────────────────────────────────────
