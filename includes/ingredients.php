@@ -24,7 +24,7 @@ $ingredients_right = [
     <!-- Full-width heading -->
     <div class="lane-header" data-aos="fade-up">
       <div class="section-label">Chapter 01 &nbsp;·&nbsp; The Ingredients</div>
-      <h2 class="section-title">It Starts with<br/>the <span class="gold-text">Best</span></h2>
+      <h2 class="section-title">It <span class="gold-text">Starts</span> with<br/>the <span class="gold-text">Best</span></h2>
       <p class="lane-header-sub">
         Every BURGR begins with ingredients hand-selected at absolute peak freshness.
         Sourced daily from local farms. No shortcuts. No compromise. Ever.
