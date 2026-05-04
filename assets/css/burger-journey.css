@@ -10,6 +10,7 @@
   pointer-events: none;
   will-change: transform, opacity, filter;
   opacity: 0; /* starts invisible; JS fades it in */
+  transform-origin: top left;
 }
 
 /* ── Inner container: all visual effects pivot from here ── */
