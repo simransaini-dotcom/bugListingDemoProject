@@ -43,7 +43,7 @@ $testimonials = [
 
     <div class="testimonials-header" data-aos="fade-up">
       <div class="section-label" style="justify-content:center;">Customer Love</div>
-      <h2 class="section-title">Real People,<br /><span class="gold-text">Real Obsession</span></h2>
+      <h2 class="section-title"><span class="gold-text">Real</span> People,<br /><span class="gold-text">Real</span> Obsession</h2>
       <div class="divider center"></div>
       <p class="section-subtitle">
         Don't just take our word for it. Here's what happens when people taste the difference.
