@@ -252,11 +252,14 @@
         var el = document.querySelector(to.el);
         if (!el) return;
 
+        /* Special handling for CTA section - burger should reach final position at top and stay */
+        var endPoint = (to.id === 'cta') ? 'top 20%' : 'center 48%';
+
         gsap.timeline({
           scrollTrigger: {
             trigger: el,
             start:   'top 90%',
-            end:     'center 48%',
+            end:     endPoint,
             scrub:   SCRUB,
             invalidateOnRefresh: true,
             onEnter:     function () { onEnterSection(to.id);   },
