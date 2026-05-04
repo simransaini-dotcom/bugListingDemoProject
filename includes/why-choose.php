@@ -41,7 +41,7 @@ $reasons = [
 
     <div class="why-choose-header" data-aos="fade-up">
       <div class="section-label" style="justify-content:center;">Chapter 04 &nbsp;·&nbsp; The Obsession</div>
-      <h2 class="section-title">Built on <span class="gold-text">Obsession</span>,<br/>Served with Pride</h2>
+      <h2 class="section-title">Built on <span class="gold-text">Obsession</span>,<br/>Served with <span class="gold-text">Pride</span></h2>
       <div class="divider center"></div>
       <p class="section-subtitle" style="margin:0 auto;">
         We don't just make burgers. We perfect them — from the sourcing of every leaf
