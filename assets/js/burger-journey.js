@@ -288,6 +288,7 @@
     buildWhyEffect();
     buildMenuHoverReactions();
     buildCTAEffect();
+    buildCTAPin();
   }
 
   /* ─────────────────────────────────────
@@ -514,6 +515,24 @@
         });
         gsap.to(aura, { scale: 1.0, opacity: 0.7, duration: 0.45 });
       });
+    });
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     CTA SECTION PIN
+     Pin the burger at center-top throughout the CTA section
+  ═══════════════════════════════════════════════════════════ */
+  function buildCTAPin() {
+    var el = document.querySelector('#order');
+    if (!el) return;
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 10%',
+      end: 'bottom top',
+      pin: wrap,
+      pinSpacing: false,
+      invalidateOnRefresh: true,
     });
   }
 
